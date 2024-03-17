@@ -61,7 +61,7 @@ namespace Banking.ViewModel
                     Valute valute = new Valute()
                     {
                         Name = xRes.GetString(xRes.GetOrdinal("Name")),
-                        Value = xRes.GetInt64(xRes.GetOrdinal("Value")),
+                        Value = xRes.GetDouble(xRes.GetOrdinal("Value")),
                         Type = xRes.GetString(xRes.GetOrdinal("TypeOperation")),
                         Date = xRes.GetDateTime(xRes.GetOrdinal("Date"))
                     };

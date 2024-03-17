@@ -9,14 +9,15 @@ namespace Banking.ViewModel
 {
     internal class WriteAndRead
     {
+        List<APIValutes> api = new List<APIValutes>();
         DBRequests db = new DBRequests();
         public async Task Write(string TBoxSum, string selectedTypeKey, string selectedValuteKey)
         {
 
-            Regex regex = new Regex(@"^[0-9]+$");
+            Regex regex = new Regex(@"^[0-9]*[.,]?[0-9]+$");
             if (regex.IsMatch(TBoxSum) && TBoxSum.Length < Convert.ToString(long.MaxValue).Length)
             {
-                double Sum = Convert.ToInt64(TBoxSum);
+                double Sum = Convert.ToDouble(TBoxSum);
 
 
 
@@ -33,19 +34,19 @@ namespace Banking.ViewModel
                 }
                 else
                 {
-                    MessageDialog msg = new MessageDialog("Недостаточно средств для снятия", "Ошибка ввода данных");
+                    MessageDialog msg = new MessageDialog("Недостаточно средств для снятия", "Оповещение");
                     await msg.ShowAsync();
                 }
             }
             else
             {
-                MessageDialog msg = new MessageDialog("Введено слишком большое число", "Ошибка ввода данных");
+                MessageDialog msg = new MessageDialog("Ошибка ввода данных", "Оповещение");
                 await msg.ShowAsync();
             }
         }
-        private async Task<Dictionary<string, long>> GetDictValutes()
+        private async Task<Dictionary<string, double>> GetDictValutes()
         {
-            Dictionary<string, long> Groups = new Dictionary<string, long>();
+            Dictionary<string, double> Groups = new Dictionary<string, double>();
             List<Valute> list = await db.BDSelect();
             foreach (var item in list)
             {
@@ -69,7 +70,7 @@ namespace Banking.ViewModel
         }
         private async Task<bool> CheckSum(string Valute, double Value, string Type)
         {
-            Dictionary<string, long> groups = await GetDictValutes();
+            Dictionary<string, double> groups = await GetDictValutes();
             double AllSumValue = 0;
             foreach (var item in groups)
             {
@@ -87,6 +88,33 @@ namespace Banking.ViewModel
         public async Task<List<Valute>> GetListHistory()
         {
             return await db.BDSelect();
+        }
+        public async Task<string> GetSumInValute(double selectedValue, List<APIValutes> ListApi)
+        {
+            List<Valute> list = await db.BDSelect();
+            
+            double AllSumValue = 0;
+            foreach (var item in list)
+            {
+                foreach (var itemAPI in ListApi)
+                {
+                    if (item.Name.Contains(itemAPI.Valute))
+                    {
+                        if (item.Type == "Зачисление")
+                        {
+                            AllSumValue += item.Value * itemAPI.Value;
+                            break;
+                        }
+                        else if (item.Type == "Снятие")
+                        {
+                            AllSumValue -= item.Value * itemAPI.Value;
+                            break;
+                        }
+                    }
+                }
+
+            }
+            return Math.Round(AllSumValue / selectedValue, 2).ToString();
         }
     }
 }

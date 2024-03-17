@@ -11,13 +11,13 @@ namespace Banking.Model
         public class Valute
         {
             public string Name { get; set; }
-            public long Value { get; set; }
+            public double Value { get; set; }
             public string Type { get; set; }
             public DateTime Date { get; set; }
         }
         public class APIValutes
         {
-            public double Value { get; set; }
+            public long Value { get; set; }
             public string Valute { get; set; }
         }
     }

@@ -7,6 +7,7 @@ namespace Banking.View
 {
     public sealed partial class Operations : Page
     {
+        WriteAndRead WriteInDB = new WriteAndRead();
         readonly API API = new API();
         public Operations()
         {
@@ -29,12 +30,10 @@ namespace Banking.View
 
         private async void BtnWrite_Click(object sender, RoutedEventArgs e)
         {
-
             ComboBoxItem selectedType = ComBoxTypeOperation.SelectedItem as ComboBoxItem;
             string selectedTypeKey = selectedType.Content.ToString();
             APIValutes selectedValute = ComboBoxValute.SelectedItem as APIValutes;
             string selectedValuteKey = selectedValute.Valute;
-            WriteAndRead WriteInDB = new WriteAndRead();
             await WriteInDB.Write(TBoxSum.Text, selectedTypeKey, selectedValuteKey);
         }
 
