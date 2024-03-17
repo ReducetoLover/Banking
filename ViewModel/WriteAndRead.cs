@@ -14,7 +14,7 @@ namespace Banking.ViewModel
         public async Task Write(string TBoxSum, string selectedTypeKey, string selectedValuteKey)
         {
 
-            Regex regex = new Regex(@"^[0-9]*[.,]?[0-9]+$");
+            Regex regex = new Regex(@"^[0-9]*[,]?[0-9]+$");
             if (regex.IsMatch(TBoxSum) && TBoxSum.Length < Convert.ToString(long.MaxValue).Length)
             {
                 double Sum = Convert.ToDouble(TBoxSum);
