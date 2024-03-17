@@ -29,6 +29,7 @@ namespace Banking.View
 
         private async void BtnWrite_Click(object sender, RoutedEventArgs e)
         {
+
             ComboBoxItem selectedType = ComBoxTypeOperation.SelectedItem as ComboBoxItem;
             string selectedTypeKey = selectedType.Content.ToString();
             APIValutes selectedValute = ComboBoxValute.SelectedItem as APIValutes;

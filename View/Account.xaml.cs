@@ -1,4 +1,5 @@
-﻿using Banking.View;
+﻿using Banking.DB;
+using Banking.View;
 using Banking.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ namespace Banking
 {
     public sealed partial class MainPage : Page
     {
+        DBRequests db = new DBRequests();
         List<APIValutes> api = new List<APIValutes>();
         readonly API API = new API();
         public MainPage()
@@ -31,8 +33,9 @@ namespace Banking
         private async void ComboBoxValute_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Block.Text = "0";
-            DBRequests db = new DBRequests();
+            
             Dictionary<string, double> groups = new Dictionary<string, double>();
+           
             List<Valute> list = await db.BDSelect();
             APIValutes selected = ComboBoxValute.SelectedItem as APIValutes;
             double selectedValue = selected.Value;
@@ -70,6 +73,11 @@ namespace Banking
             ComboBoxValute.DisplayMemberPath = "Valute";
             ComboBoxValute.SelectedValuePath = "Value";
             ComboBoxValute.SelectedIndex = 13;
+        }
+
+        private void Account_Loading(FrameworkElement sender, object args)
+        {
+            db.BDCreate();
         }
     }
 
