@@ -12,7 +12,7 @@
     <TextBlock x:Name="TextValuteOperaion" HorizontalAlignment="Left" Margin="387,75,0,0" Text="Валюта" TextWrapping="Wrap" VerticalAlignment="Top"/>
     <ComboBox x:Name="ComboBoxValute" Margin="360,99,0,0" Width="100" Height="28" Loading="ComboBoxValute_Loading" />
     <Button x:Name="BtnCancel" Content="Отмена" Margin="285,275,0,0" VerticalAlignment="Top" Width="175" Height="45" Foreground="White" Background="#FFA83932" Click="BtnCancel_Click"/>
-    <Button x:Name="BtnWrite" Content="Записать" Margin="47,275,0,0" VerticalAlignment="Top" Width="175" Height="45" Foreground="White" Background="DarkBlue"/>
+    <Button x:Name="BtnWrite" Content="Записать" Margin="47,275,0,0" VerticalAlignment="Top" Width="175" Height="45" Foreground="White" Background="DarkBlue" Click="BtnWrite_Click"/>
     <TextBlock x:Name="TextOperation" HorizontalAlignment="Left" Margin="61,130,0,0" Text="Тип операции" TextWrapping="Wrap" VerticalAlignment="Top"/>
     <ComboBox x:Name="ComBoxTypeOperation" Margin="47,154,0,0" Width="120" IsDropDownOpen="True" SelectedIndex="0">
       <ComboBoxItem Content="Зачисление"/>

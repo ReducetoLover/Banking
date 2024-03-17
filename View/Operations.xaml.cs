@@ -1,37 +1,22 @@
 ﻿using Banking.ViewModel;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-
-// Документацию по шаблону элемента "Пустая страница" см. по адресу https://go.microsoft.com/fwlink/?LinkId=234238
+using static Banking.Model.Classes;
 
 namespace Banking.View
 {
-    /// <summary>
-    /// Пустая страница, которую можно использовать саму по себе или для перехода внутри фрейма.
-    /// </summary>
     public sealed partial class Operations : Page
     {
+        WriteAndRead WriteInDB = new WriteAndRead();
+        readonly API API = new API();
         public Operations()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             DataContext = new API();
         }
 
         private async void ComboBoxValute_Loading(FrameworkElement sender, object args)
         {
-            API API = new API();
             ComboBoxValute.ItemsSource = await API.GetValutes();
             ComboBoxValute.DisplayMemberPath = "Valute";
             ComboBoxValute.SelectedValuePath = "Value";
@@ -42,5 +27,16 @@ namespace Banking.View
         {
             Frame.Navigate(typeof(MainPage));
         }
+
+        private async void BtnWrite_Click(object sender, RoutedEventArgs e)
+        {
+            ComboBoxItem selectedType = ComBoxTypeOperation.SelectedItem as ComboBoxItem;
+            string selectedTypeKey = selectedType.Content.ToString();
+            APIValutes selectedValute = ComboBoxValute.SelectedItem as APIValutes;
+            string selectedValuteKey = selectedValute.Valute;
+            await WriteInDB.Write(TBoxSum.Text, selectedTypeKey, selectedValuteKey);
+        }
+
     }
+
 }
